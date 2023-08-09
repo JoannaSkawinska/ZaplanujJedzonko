@@ -119,6 +119,7 @@ public class PlanDao {
             e.printStackTrace();
         }
         return null;
+    }
   
     public static int numberOfRecipesOfAdmin(Admin admin) {
         int numberOfRecipes = -1;
@@ -133,6 +134,5 @@ public class PlanDao {
             e.printStackTrace();
         }
         return numberOfRecipes;
-
     }
 }
