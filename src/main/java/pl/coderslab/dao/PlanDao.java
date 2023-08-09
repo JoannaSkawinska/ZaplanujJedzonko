@@ -2,6 +2,7 @@ package pl.coderslab.dao;
 
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
+import pl.coderslab.model.PlanString;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.*;
@@ -14,6 +15,13 @@ public class PlanDao {
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan;";
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
     private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ? WHERE	id = ?;";
+    private static final String LAST_PLAN_OF_ADMIN = "SELECT day_name.name as day_name, meal_name,  recipe.name as recipe_name, recipe.description as recipe_description\n" +
+            "FROM `recipe_plan`\n" +
+            "JOIN day_name on day_name.id=day_name_id\n" +
+            "JOIN recipe on recipe.id=recipe_id WHERE\n" +
+            "recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
+            "ORDER by day_name.display_order, recipe_plan.display_order;";
+
     private static final String NUMBER_OF_PLANS_PER_ADMIN = "SELECT COUNT(plan.id) AS count FROM plan JOIN admins on plan.admin_id = admin_id WHERE admin_id = ?;";
 
 
@@ -92,6 +100,26 @@ public class PlanDao {
             e.printStackTrace();
         }
     }
+    public static List<PlanString> lastPlanOfAdmin (Admin admin) {
+        List<PlanString> planString = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection()) {
+            PreparedStatement preStmt = connection.prepareStatement(LAST_PLAN_OF_ADMIN);
+            preStmt.setInt(1, admin.getId());
+            ResultSet rs = preStmt.executeQuery();
+            while (rs.next()) {
+                PlanString ps = new PlanString();
+                ps.setDayName(rs.getString(1));
+                ps.setMealName(rs.getString(2));
+                ps.setRecipeName(rs.getString(3));
+                ps.setRecipeDescription(rs.getString(4));
+                planString.add(ps);
+            }
+            return planString;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+  
     public static int numberOfRecipesOfAdmin(Admin admin) {
         int numberOfRecipes = -1;
         try (Connection connection = DbUtil.getConnection()) {
@@ -105,5 +133,6 @@ public class PlanDao {
             e.printStackTrace();
         }
         return numberOfRecipes;
+
     }
 }
