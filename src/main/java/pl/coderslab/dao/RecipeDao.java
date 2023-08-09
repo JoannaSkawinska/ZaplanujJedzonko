@@ -1,5 +1,6 @@
 package pl.coderslab.dao;
 
+import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
 import pl.coderslab.model.Recipe;
 import pl.coderslab.utils.DbUtil;
@@ -18,8 +19,9 @@ public class RecipeDao {
     private static final String FIND_ALL_RECIPES_QUERY = "SELECT * FROM recipe;";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
     private static final String UPDATE_RECIPE_QUERY = "UPDATE	recipe SET name = ?, ingredients = ?, description = ?, created = ?, updated = ?, preparation_time = ?, preparation = ? WHERE	id = ?;";
+    private static final String NUMBER_OF_RECIPES_PER_ADMIN = "SELECT COUNT(recipe.id) AS count FROM recipe JOIN admins on recipe.admin_id = admin_id WHERE admin_id = ?;";
 
-    public static void createNewRecipe (Recipe recipe) {
+    public static void createNewRecipe(Recipe recipe) {
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preStmt = connection.prepareStatement(CREATE_RECIPE_QUERY);
             preStmt.setString(1, recipe.getName());
@@ -35,6 +37,7 @@ public class RecipeDao {
             e.printStackTrace();
         }
     }
+
     public static Recipe read(Integer recipeId) {
         Recipe recipe = new Recipe();
         try (Connection connection = DbUtil.getConnection();
@@ -59,7 +62,8 @@ public class RecipeDao {
         }
         return recipe;
     }
-    public static List<Recipe> findAllRecipes () {
+
+    public static List<Recipe> findAllRecipes() {
         List<Recipe> listOfAllRecipes = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(FIND_ALL_RECIPES_QUERY);
@@ -84,7 +88,7 @@ public class RecipeDao {
         return null;
     }
 
-    public static void updateRecipe (Recipe recipe) {
+    public static void updateRecipe(Recipe recipe) {
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preStmt = connection.prepareStatement(UPDATE_RECIPE_QUERY);
             preStmt.setString(1, recipe.getName());
@@ -101,7 +105,7 @@ public class RecipeDao {
         }
     }
 
-    public static void deleteRecipe (int recipeId) {
+    public static void deleteRecipe(int recipeId) {
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preStmt = connection.prepareStatement(DELETE_RECIPE_QUERY);
             preStmt.setInt(1, recipeId);
@@ -109,5 +113,20 @@ public class RecipeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static int numberOfRecipesOfAdmin(Admin admin) {
+        int numberOfRecipes = -1;
+        try (Connection connection = DbUtil.getConnection()) {
+            PreparedStatement preStmt = connection.prepareStatement(NUMBER_OF_RECIPES_PER_ADMIN);
+            preStmt.setInt(1, admin.getId());
+            ResultSet rs = preStmt.executeQuery();
+            while (rs.next()) {
+                numberOfRecipes = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return numberOfRecipes;
     }
 }

@@ -22,6 +22,9 @@ public class PlanDao {
             "recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
             "ORDER by day_name.display_order, recipe_plan.display_order;";
 
+    private static final String NUMBER_OF_PLANS_PER_ADMIN = "SELECT COUNT(plan.id) AS count FROM plan JOIN admins on plan.admin_id = admin_id WHERE admin_id = ?;";
+
+
     public static void createNewPlan (Plan plan) {
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preStmt = connection.prepareStatement(CREATE_PLAN_QUERY);
@@ -116,5 +119,20 @@ public class PlanDao {
             e.printStackTrace();
         }
         return null;
+  
+    public static int numberOfRecipesOfAdmin(Admin admin) {
+        int numberOfRecipes = -1;
+        try (Connection connection = DbUtil.getConnection()) {
+            PreparedStatement preStmt = connection.prepareStatement(NUMBER_OF_PLANS_PER_ADMIN);
+            preStmt.setInt(1, admin.getId());
+            ResultSet rs = preStmt.executeQuery();
+            while (rs.next()) {
+                numberOfRecipes = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return numberOfRecipes;
+
     }
 }
