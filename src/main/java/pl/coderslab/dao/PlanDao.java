@@ -1,5 +1,6 @@
 package pl.coderslab.dao;
 
+import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
 import pl.coderslab.utils.DbUtil;
 
@@ -13,6 +14,8 @@ public class PlanDao {
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan;";
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
     private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ? WHERE	id = ?;";
+    private static final String NUMBER_OF_PLANS_PER_ADMIN = "SELECT COUNT(plan.id) AS count FROM plan JOIN admins on plan.admin_id = admin_id WHERE admin_id = ?;";
+
 
     public static void createNewPlan (Plan plan) {
         try (Connection connection = DbUtil.getConnection()) {
@@ -88,5 +91,19 @@ public class PlanDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public static int numberOfRecipesOfAdmin(Admin admin) {
+        int numberOfRecipes = -1;
+        try (Connection connection = DbUtil.getConnection()) {
+            PreparedStatement preStmt = connection.prepareStatement(NUMBER_OF_PLANS_PER_ADMIN);
+            preStmt.setInt(1, admin.getId());
+            ResultSet rs = preStmt.executeQuery();
+            while (rs.next()) {
+                numberOfRecipes = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return numberOfRecipes;
     }
 }
