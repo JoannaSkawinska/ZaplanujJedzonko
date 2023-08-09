@@ -101,4 +101,34 @@ public class AdminDao {
             e.printStackTrace();
         }
     }
+
+    public Admin authenticate(String email, String password) {
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM admins WHERE email = ?")) {
+
+            statement.setString(1, email);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    String hashedPassword = resultSet.getString("password");
+                    if (BCrypt.checkpw(password, hashedPassword)) {
+                        Admin admin = new Admin();
+                        admin.setId(resultSet.getInt("id"));
+                        admin.setFirstName(resultSet.getString("first_name"));
+                        admin.setLastName(resultSet.getString("last_name"));
+                        admin.setEmail(resultSet.getString("email"));
+                        admin.setSuperadmin(resultSet.getBoolean("superadmin"));
+                        admin.setEnable(resultSet.getBoolean("enable"));
+                        return admin;
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }
