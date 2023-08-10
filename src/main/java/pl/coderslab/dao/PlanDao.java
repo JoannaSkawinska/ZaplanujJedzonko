@@ -121,7 +121,7 @@ public class PlanDao {
         return null;
     }
   
-    public static int numberOfRecipesOfAdmin(Admin admin) {
+    public static int numberOfPlansOfAdmin(Admin admin) {
         int numberOfRecipes = -1;
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preStmt = connection.prepareStatement(NUMBER_OF_PLANS_PER_ADMIN);
