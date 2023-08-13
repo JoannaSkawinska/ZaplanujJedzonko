@@ -1,12 +1,21 @@
 package pl.coderslab.model;
 
 public class PlanString {
+    private String planName;
     private String dayName;
     private String mealName;
     private String recipeName;
     private String recipeDescription;
 
     public PlanString() {
+    }
+
+    public String getPlanName() {
+        return planName;
+    }
+
+    public void setPlanName(String planName) {
+        this.planName = planName;
     }
 
     public String getDayName() {
@@ -44,7 +53,8 @@ public class PlanString {
     @Override
     public String toString() {
         return "PlanString{" +
-                "dayName='" + dayName + '\'' +
+                "planName='" + planName + '\'' +
+                ", dayName='" + dayName + '\'' +
                 ", mealName='" + mealName + '\'' +
                 ", recipeName='" + recipeName + '\'' +
                 ", recipeDescription='" + recipeDescription + '\'' +
