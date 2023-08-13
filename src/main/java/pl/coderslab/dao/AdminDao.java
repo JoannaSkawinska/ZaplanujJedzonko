@@ -102,6 +102,27 @@ public class AdminDao {
         }
     }
 
+    public static void createNewAdmin(Admin admin) {
+        try (Connection connection = DbUtil.getConnection()) {
+            PreparedStatement preStmt = connection.prepareStatement(CREATE_ADMIN_QUERY, Statement.RETURN_GENERATED_KEYS);
+            preStmt.setString(1, admin.getFirstName());
+            preStmt.setString(2, admin.getLastName());
+            preStmt.setString(3, admin.getEmail());
+            preStmt.setString(4, BCrypt.hashpw(admin.getPassword(), BCrypt.gensalt()));
+            preStmt.setBoolean(5, admin.isSuperadmin());
+            preStmt.setBoolean(6, admin.isEnable());
+            preStmt.executeUpdate();
+
+            try (ResultSet generatedKeys = preStmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    admin.setId(generatedKeys.getInt(1));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Admin authenticate(String email, String password) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement("SELECT * FROM admins WHERE email = ?")) {
