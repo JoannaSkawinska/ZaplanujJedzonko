@@ -7,14 +7,14 @@ import pl.coderslab.model.Admin;
 
 import java.io.IOException;
 
-@WebServlet(name = "AppSchedulesServlet", value = "/AppSchedulesServlet")
-public class AppSchedulesServlet extends HttpServlet {
+@WebServlet(name = "AppPlansServlet", value = "/app/plan/list")
+public class AppPlansServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sess = request.getSession();
         Admin loggedAdmin = (Admin) sess.getAttribute("authenticatedAdmin");
-
-        request.getRequestDispatcher("/app-schedules.jsp").forward(request, response);
+        
+        request.getRequestDispatcher("/app_plans.jsp").forward(request, response);
     }
 
     @Override

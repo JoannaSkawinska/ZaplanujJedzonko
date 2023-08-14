@@ -18,7 +18,7 @@ public class DashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sess = request.getSession();
         Admin loggedAdmin = (Admin) sess.getAttribute("authenticatedAdmin");
-        int noOfPlans = PlanDao.numberOfRecipesOfAdmin(loggedAdmin);
+        int noOfPlans = PlanDao.numberOfPlansOfAdmin(loggedAdmin);
         request.setAttribute("noOfPlans", noOfPlans);
 
         int noOfRecipes = RecipeDao.numberOfRecipesOfAdmin(loggedAdmin);

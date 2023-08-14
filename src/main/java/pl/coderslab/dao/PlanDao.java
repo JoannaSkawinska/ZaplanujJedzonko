@@ -22,8 +22,11 @@ public class PlanDao {
             "            JOIN plan on plan.id = plan_id WHERE\n" +
             "            recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
             "            ORDER by day_name.display_order, recipe_plan.display_order;";
-
+    private static final String RECIPE_ID_FROM_NAME = "SELECT id FROM recipe WHERE name = ?;";
     private static final String NUMBER_OF_PLANS_PER_ADMIN = "SELECT COUNT(plan.id) AS count FROM plan JOIN admins on plan.admin_id = admin_id WHERE admin_id = ?;";
+
+    private static final String DAY_ID_FROM_NAME = "SELECT id FROM day_name WHERE name = ?;";
+    private static final String INSERT_RECIPE_TO_PLAN = "INSERT INTO recipe_plan(recipe_id, meal_name, display_order, day_name_id, plan_id) VALUES (?, ?, ?, ?, ?);";
 
 
     public static void createNewPlan (Plan plan) {
@@ -137,4 +140,52 @@ public class PlanDao {
         }
         return numberOfRecipes;
     }
+    public static int getRecipeIdByName(Connection connection, String recipeName) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(RECIPE_ID_FROM_NAME)) {
+            preparedStatement.setString(1, recipeName);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public static int getDayIdByName(Connection connection, String dayName) {
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DAY_ID_FROM_NAME)) {
+            preparedStatement.setString(1, dayName);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+    public static void addRecipeToPlan(int planId, String mealName, String recipeName, String dayName, int displayOrder) {
+        try (Connection connection = DbUtil.getConnection()) {
+            int recipeId = getRecipeIdByName(connection, recipeName);
+            int dayId = getDayIdByName(connection, dayName);
+
+            if (recipeId != -1 && dayId != -1) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RECIPE_TO_PLAN)) {
+                    preparedStatement.setInt(1, recipeId);
+                    preparedStatement.setString(2, mealName);
+                    preparedStatement.setInt(3, displayOrder);
+                    preparedStatement.setInt(4, dayId);
+                    preparedStatement.setInt(5, planId);
+                    preparedStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
+

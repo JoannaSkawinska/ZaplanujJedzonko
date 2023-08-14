@@ -25,7 +25,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/AppSchedulesServlet">
+        <a class="nav-link" href="/AppPlansServlet">
             <span>Plany</span>
             <i class="fas fa-angle-right"></i>
         </a>
