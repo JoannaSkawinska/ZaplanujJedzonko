@@ -20,6 +20,9 @@ public class AppRecipesServlet extends HttpServlet {
         HttpSession sess = request.getSession();
         Admin loggedAdmin = (Admin) sess.getAttribute("authenticatedAdmin");
 
+        /*AdminDao adminDao = new AdminDao();
+        Admin loggedAdmin = adminDao.read(1);*/
+
         List<Recipe> listOfRecipes = RecipeDao.findAllRecipesOfAdmin(loggedAdmin.getId());
         List<RecipeString> listOfRecipesString = RecipeDao.recipeStringList(listOfRecipes);
         request.setAttribute("listOfRecipes", listOfRecipesString);
