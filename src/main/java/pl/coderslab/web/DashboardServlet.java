@@ -16,7 +16,8 @@ import java.util.List;
 public class DashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Admin loggedAdmin = (Admin) request.getAttribute("authenticatedAdmin");
+        HttpSession sess = request.getSession();
+        Admin loggedAdmin = (Admin) sess.getAttribute("authenticatedAdmin");
         int noOfPlans = PlanDao.numberOfRecipesOfAdmin(loggedAdmin);
         request.setAttribute("noOfPlans", noOfPlans);
 

@@ -3,6 +3,7 @@ package pl.coderslab.dao;
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
 import pl.coderslab.model.Recipe;
+import pl.coderslab.model.RecipeString;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.Connection;
@@ -16,7 +17,7 @@ public class RecipeDao {
 
     private static final String CREATE_RECIPE_QUERY = "INSERT INTO recipe(name,ingredients,description,created,updated,preparation_time,preparation,admin_id) VALUES (?,?,?,?,?,?,?,?);";
     private static final String DELETE_RECIPE_QUERY = "DELETE FROM recipe where id = ?;";
-    private static final String FIND_ALL_RECIPES_QUERY = "SELECT * FROM recipe;";
+    private static final String FIND_ALL_RECIPES_QUERY = "SELECT * FROM recipe where admin_id = ?;";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
     private static final String UPDATE_RECIPE_QUERY = "UPDATE	recipe SET name = ?, ingredients = ?, description = ?, created = ?, updated = ?, preparation_time = ?, preparation = ? WHERE	id = ?;";
     private static final String NUMBER_OF_RECIPES_PER_ADMIN = "SELECT COUNT(recipe.id) AS count FROM recipe JOIN admins on recipe.admin_id = admin_id WHERE admin_id = ?;";
@@ -63,10 +64,11 @@ public class RecipeDao {
         return recipe;
     }
 
-    public static List<Recipe> findAllRecipes() {
+    public static List<Recipe> findAllRecipesOfAdmin(int adminId) {
         List<Recipe> listOfAllRecipes = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(FIND_ALL_RECIPES_QUERY);
+            stmt.setInt(1, adminId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Recipe recipe = new Recipe();
@@ -128,5 +130,16 @@ public class RecipeDao {
             e.printStackTrace();
         }
         return numberOfRecipes;
+    }
+    public static List<RecipeString> recipeStringList (List<Recipe> listOfRecipes) {
+        List<RecipeString> listOfRecipesString = new ArrayList<>();
+        for (int i =0; i<listOfRecipes.size(); i++) {
+            RecipeString recipeString = new RecipeString();
+            recipeString.setId(String.valueOf(listOfRecipes.get(i).getId()));
+            recipeString.setName(listOfRecipes.get(i).getName());
+            recipeString.setDescription(listOfRecipes.get(i).getDescription());
+            listOfRecipesString.add(recipeString);
+        }
+        return listOfRecipesString;
     }
 }
