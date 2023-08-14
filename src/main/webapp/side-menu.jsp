@@ -13,37 +13,37 @@
 <body>
 <ul class="nav flex-column long-bg">
     <li class="nav-item">
-        <a class="nav-link" href="DashboardServlet">
+        <a class="nav-link" href="/DashboardServlet">
             <span>Pulpit</span>
             <i class="fas fa-angle-right"></i>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="AppRecipesServlet">
+        <a class="nav-link" href="/app/recipe/list/">
             <span>Przepisy</span>
             <i class="fas fa-angle-right"></i>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="AppSchedulesServlet">
+        <a class="nav-link" href="/AppSchedulesServlet">
             <span>Plany</span>
             <i class="fas fa-angle-right"></i>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="EditUserDataServlet">
+        <a class="nav-link" href="/EditUserDataServlet">
             <span>Edytuj dane</span>
             <i class="fas fa-angle-right"></i>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link disabled" href="EditPasswordServlet">
+        <a class="nav-link disabled" href="/EditPasswordServlet">
             <span>Zmień hasło</span>
             <i class="fas fa-angle-right"></i>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="SuperAdminServlet">
+        <a class="nav-link" href="/SuperAdminServlet">
             <span>Użytkownicy</span>
             <i class="fas fa-angle-right"></i>
         </a>
