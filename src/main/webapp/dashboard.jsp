@@ -16,7 +16,7 @@
           crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Charmonman:400,700|Open+Sans:400,600,700&amp;subset=latin-ext"
           rel="stylesheet">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 </head>
 <body>
@@ -63,17 +63,17 @@
                 <div class="dashboard-alerts">
                     <div class="alert-item alert-info">
                         <i class="fas icon-circle fa-info-circle"></i>
-                        <span class="font-weight-bold">Liczba przepisów: ${noOfRecipes}</span>
+                        <span class="font-weight-bold">Liczba przepisów: <c:out value="${noOfRecipes}"/></span>
                     </div>
                     <div class="alert-item alert-light">
                         <i class="far icon-calendar fa-calendar-alt"></i>
-                        <span class="font-weight-bold">Liczba planów: ${noOfPlans}</span>
+                        <span class="font-weight-bold">Liczba planów: <c:out value="${noOfPlans}"/></span>
                     </div>
                 </div>
             </div>
             <div class="m-4 p-4 border-dashed">
                 <h2 class="dashboard-content-title">
-                    <span>Ostatnio dodany plan:</span> ${lastPlanOfLoggedAdmin[0].planName}
+                    <span>Ostatnio dodany plan:</span> <c:out value="${lastPlanOfLoggedAdmin[0].planName}"/>
                 </h2>
 
                 <c:set var="previousDay" value="" />
@@ -83,7 +83,7 @@
                     <table class="table">
                         <thead>
                         <tr class="d-flex">
-                            <th class="col-2">${planString.dayName}</th>
+                            <th class="col-2"><c:out value="${planString.dayName}"/></th>
                             <th class="col-8"></th>
                             <th class="col-2"></th>
                         </tr>
@@ -92,9 +92,9 @@
                         <c:forEach items="${lastPlanOfLoggedAdmin}" var="recipes">
                             <c:if test="${recipes.dayName == planString.dayName}">
                                 <tr class="d-flex">
-                                    <td class="col-2">${recipes.mealName}</td>
-                                    <td class="col-8">${recipes.recipeName}</td>
-                                    <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
+                                    <td class="col-2"><c:out value="${recipes.mealName}"/></td>
+                                    <td class="col-8"><c:out value="${recipes.recipeName}"/></td>
+                                    <td class="col-2"><a href="/app/recipe/details?id=${recipes.recipeId}"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></a></td>
                                 </tr>
                             </c:if>
                         </c:forEach>

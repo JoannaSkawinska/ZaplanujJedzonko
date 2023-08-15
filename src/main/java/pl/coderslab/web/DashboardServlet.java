@@ -1,8 +1,8 @@
 package pl.coderslab.web;
 
 import jakarta.servlet.*;
-import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import jakarta.servlet.http.*;
 import pl.coderslab.dao.AdminDao;
 import pl.coderslab.dao.PlanDao;
 import pl.coderslab.dao.RecipeDao;
@@ -16,15 +16,18 @@ import java.util.List;
 public class DashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        AdminDao adminDao = new AdminDao();
+        Admin loggedAdmin = adminDao.read(1);
         HttpSession sess = request.getSession();
-        Admin loggedAdmin = (Admin) sess.getAttribute("authenticatedAdmin");
-        int noOfPlans = PlanDao.numberOfRecipesOfAdmin(loggedAdmin);
+        /*Admin loggedAdmin = (Admin) sess.getAttribute("authenticatedAdmin");*/
+        sess.setAttribute("authenticatedAdmin", loggedAdmin);
+        int noOfPlans = PlanDao.numberOfPlansOfAdmin(loggedAdmin);
         request.setAttribute("noOfPlans", noOfPlans);
 
         int noOfRecipes = RecipeDao.numberOfPlansOfAdmin(loggedAdmin);
         request.setAttribute("noOfRecipes", noOfRecipes);
 
-        List<PlanString> lastPlanOfLoggedAdmin = PlanDao.lastPlanOfAdmin(loggedAdmin);
+        List<PlanString> lastPlanOfLoggedAdmin = PlanDao.getLastPlanOfAdmin(loggedAdmin);
         request.setAttribute("lastPlanOfLoggedAdmin", lastPlanOfLoggedAdmin);
 
         request.getRequestDispatcher("/dashboard.jsp").forward(request, response);

@@ -4,10 +4,27 @@ public class PlanString {
     private String planName;
     private String dayName;
     private String mealName;
+    private String recipeId;
     private String recipeName;
     private String recipeDescription;
-
+    private String planDescription;
     public PlanString() {
+    }
+
+    public String getPlanDescription() {
+        return planDescription;
+    }
+
+    public void setPlanDescription(String planDescription) {
+        this.planDescription = planDescription;
+    }
+
+    public String getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(String recipeId) {
+        this.recipeId = recipeId;
     }
 
     public String getPlanName() {

@@ -18,9 +18,9 @@
           crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Charmonman:400,700|Open+Sans:400,600,700&amp;subset=latin-ext"
           rel="stylesheet">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <title>App-Schedules</title>
+    <title>App-Plans</title>
 </head>
 
 <body>
@@ -48,7 +48,7 @@
                         <h3 class="color-header text-uppercase">LISTA PLANÓW</h3>
                     </div>
                     <div class="col d-flex justify-content-end mb-2 noPadding">
-                        <a href="app-add-schedules.html" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj plan</a>
+                        <a href="/app_add_plan.jsp" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj plan</a>
                     </div>
                 </div>
 
@@ -63,7 +63,21 @@
                         </tr>
                         </thead>
                         <tbody class="text-color-lighter">
+                        <c:forEach items="${planList}" var="plan">
                         <tr class="d-flex">
+                            <td class="col-1"><c:out value="${plan.id}"/></td>
+                            <td class="col-2"><c:out value="${plan.name}"/></td>
+                            <td class="col-7">
+                                <c:out value="${plan.description}"/>
+                            </td>
+                            <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
+                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                <a href="/app/plan/details?id=${plan.id}" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                                <a href="/app-edit-schedules.html" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
+                            </td>
+                        </tr>
+                        </c:forEach>
+                        <%--<tr class="d-flex">
                             <td class="col-1">1</td>
                             <td class="col-2">Plan jarski na bezmięsny tydzień</td>
                             <td class="col-7">
@@ -84,7 +98,7 @@
                                 <a href="/app-details-schedules.html" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
                                 <a href="/app-edit-schedules.html" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
                             </td>
-                        </tr>
+                        </tr>--%>
                         </tbody>
                     </table>
                 </div>

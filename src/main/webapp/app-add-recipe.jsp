@@ -43,7 +43,8 @@
 
 <section class="dashboard-section">
   <div class="row dashboard-nowrap">
-    <!-- Sidebar navigation -->
+
+    <jsp:include page="side-menu.jsp"/>
 
     <div class="m-4 p-3 width-medium text-color-darker">
       <div class="dashboard-content border-dashed p-3 m-4 view-height">
