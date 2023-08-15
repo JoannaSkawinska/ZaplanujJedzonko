@@ -25,6 +25,6 @@ public class AddPlanServlet extends HttpServlet {
         Admin loggedAdmin = (Admin) sess.getAttribute("authenticatedAdmin");
         Plan newPlan = new Plan(name, planDescription, DbUtil.getCurrentDateTime(), loggedAdmin.getId());
         PlanDao.createNewPlan(newPlan);
-        request.getRequestDispatcher("/app/plan/list");
+        response.sendRedirect("/app/plan/list");
     }
 }

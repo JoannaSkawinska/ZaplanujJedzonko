@@ -13,14 +13,23 @@ public class PlanDao {
     private static final String CREATE_PLAN_QUERY = "INSERT INTO plan(name,description,created, admin_id) VALUES (?,?,?,?);";
     private static final String DELETE_PLAN_QUERY = "DELETE FROM plan where id = ?;";
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan;";
+    private static final String FIND_ALL_PLANS_OF_ADMIN_BY_ID_QUERY = "SELECT * FROM plan where admin_id = ?;";
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
     private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ? WHERE	id = ?;";
-    private static final String LAST_PLAN_OF_ADMIN = "SELECT plan.name ,day_name.name as day_name, meal_name,  recipe.name as recipe_name, recipe.description as recipe_description\n" +
+    private static final String LAST_PLAN_OF_ADMIN = "SELECT plan.name ,day_name.name as day_name, meal_name, recipe.id, recipe.name as recipe_name, recipe.description as recipe_description\n" +
             "            FROM `recipe_plan`\n" +
             "            JOIN day_name on day_name.id=day_name_id\n" +
             "            JOIN recipe on recipe.id=recipe_id\n" +
             "            JOIN plan on plan.id = plan_id WHERE\n" +
             "            recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
+            "            ORDER by day_name.display_order, recipe_plan.display_order;";
+
+    private static final String PLAN_DETAILS_OF_ADMIN = "SELECT plan.name, plan.description, day_name.name as day_name, meal_name, recipe.id, recipe.name as recipe_name, recipe.description as recipe_description\n" +
+            "            FROM `recipe_plan`\n" +
+            "            JOIN day_name on day_name.id=day_name_id\n" +
+            "            JOIN recipe on recipe.id=recipe_id\n" +
+            "            JOIN plan on plan.id = plan_id WHERE\n" +
+            "            plan.admin_id = ? and plan.id = ?\n" +
             "            ORDER by day_name.display_order, recipe_plan.display_order;";
     private static final String RECIPE_ID_FROM_NAME = "SELECT id FROM recipe WHERE name = ?;";
     private static final String NUMBER_OF_PLANS_PER_ADMIN = "SELECT COUNT(plan.id) AS count FROM plan JOIN admins on plan.admin_id = admin_id WHERE admin_id = ?;";
@@ -82,6 +91,28 @@ public class PlanDao {
         return null;
     }
 
+    public static List<Plan> findAllPlansOfAdmin (int adminId) {
+        List<Plan> listOfAllPlansOfAdmin = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(FIND_ALL_PLANS_OF_ADMIN_BY_ID_QUERY);
+            stmt.setInt(1, adminId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Plan plan = new Plan();
+                plan.setId(rs.getInt("id"));
+                plan.setName(rs.getString("name"));
+                plan.setDescription(rs.getString("description"));
+                plan.setCreated(rs.getString("created"));
+                plan.setAdminId(rs.getInt("admin_id"));
+                listOfAllPlansOfAdmin.add(plan);
+            }
+            return listOfAllPlansOfAdmin;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void updatePlan (Plan plan) {
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preStmt = connection.prepareStatement(UPDATE_PLAN_QUERY);
@@ -104,7 +135,7 @@ public class PlanDao {
             e.printStackTrace();
         }
     }
-    public static List<PlanString> lastPlanOfAdmin (Admin admin) {
+    public static List<PlanString> getLastPlanOfAdmin(Admin admin) {
         List<PlanString> planString = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preStmt = connection.prepareStatement(LAST_PLAN_OF_ADMIN);
@@ -115,11 +146,37 @@ public class PlanDao {
                 ps.setPlanName(rs.getString(1));
                 ps.setDayName(rs.getString(2));
                 ps.setMealName(rs.getString(3));
-                ps.setRecipeName(rs.getString(4));
-                ps.setRecipeDescription(rs.getString(5));
+                ps.setRecipeId(rs.getString(4));
+                ps.setRecipeName(rs.getString(5));
+                ps.setRecipeDescription(rs.getString(6));
                 planString.add(ps);
             }
             return planString;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<PlanString> getListOfPlansOfAdmin (Admin admin, int planId) {
+        List<PlanString> listOfPlansOfAdmin = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection()) {
+            PreparedStatement preStmt = connection.prepareStatement(PLAN_DETAILS_OF_ADMIN);
+            preStmt.setInt(1, admin.getId());
+            preStmt.setInt(2, planId);
+            ResultSet rs = preStmt.executeQuery();
+            while (rs.next()) {
+                PlanString ps = new PlanString();
+                ps.setPlanName(rs.getString(1));
+                ps.setPlanDescription(rs.getString(2));
+                ps.setDayName(rs.getString(3));
+                ps.setMealName(rs.getString(4));
+                ps.setRecipeId(rs.getString(5));
+                ps.setRecipeName(rs.getString(6));
+                ps.setRecipeDescription(rs.getString(7));
+                listOfPlansOfAdmin.add(ps);
+            }
+            return listOfPlansOfAdmin;
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,11 +1,12 @@
 package pl.coderslab.utils;
 
+import org.apache.tomcat.jdbc.pool.DataSource;
+import org.apache.tomcat.jdbc.pool.PoolProperties;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
-import org.apache.tomcat.jdbc.pool.DataSource;
-import org.apache.tomcat.jdbc.pool.PoolProperties;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class DbUtil {
     private static final String URL = "jdbc:mysql://localhost:3306/scrumlab?useSSL=false&characterEncoding=utf8&serverTimezone=UTC";
@@ -40,5 +41,10 @@ public class DbUtil {
         datasource.setPoolProperties(p);
         Connection conn = datasource.getConnection();
         return conn;
+    }
+    public static String getCurrentDateTime() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
     }
 }
