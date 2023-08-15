@@ -26,6 +26,8 @@ public class AddRecipeServlet extends HttpServlet {
         int preparationTime = Integer.parseInt(request.getParameter("preparationTime"));
         String preparation = request.getParameter("preparation");
         String ingredients = request.getParameter("ingredients");
+       int adminId = Integer.parseInt(request.getParameter("admin_id"));
+        String created = request.getParameter("created");
 
         Recipe newRecipe = new Recipe();
         newRecipe.setName(name);
@@ -33,6 +35,8 @@ public class AddRecipeServlet extends HttpServlet {
         newRecipe.setPreparationTime(preparationTime);
         newRecipe.setPreparation(preparation);
         newRecipe.setIngredients(ingredients);
+        newRecipe.setAdminId(adminId);
+        newRecipe.setCreated(created);
 
 
         recipeDao.createNewRecipe(newRecipe);
