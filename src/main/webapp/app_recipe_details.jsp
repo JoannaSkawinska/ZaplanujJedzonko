@@ -80,9 +80,7 @@
                         </div>
                         <div class="col-2"></div>
                         <ul class="col-5 p-4 list-unstyled">
-                            <c:forEach items="${ingredients}" var="ingredient">
-                                <li><c:out value="${ingredient}"/></li>
-                            </c:forEach>
+                            <li><c:out value="${ingredients}"/></li>
                             <%--<li>brukselka 300g</li>
                             <li>ziemniaki 500g</li>
                             <li>Fix Naturalnie makaronowa z szynką Knorr 1 szt.</li>
