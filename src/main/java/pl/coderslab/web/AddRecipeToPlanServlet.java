@@ -19,7 +19,7 @@ import java.io.IOException;
                 HttpSession sess = request.getSession();
                 Admin loggedAdmin = (Admin) sess.getAttribute("authenticatedAdmin");
 
-                request.setAttribute("plans", PlanDao.findAllPlans());
+            //    request.setAttribute("plans", PlanDao.findAllPlansOfAdmin());
                 request.setAttribute("recipes", RecipeDao.findAllRecipesOfAdmin(loggedAdmin.getId()));
                 request.setAttribute("days", DayNameDao.findAll());
                  request.getRequestDispatcher("/app-schedules-meal-recipe.jsp").forward(request, response);
@@ -30,11 +30,13 @@ import java.io.IOException;
                 int planId = Integer.parseInt(request.getParameter("choosePlan"));
                 String mealName = request.getParameter("mealName");
                 String recipeName = request.getParameter("recipeName");
-                String dayName = request.getParameter("dayName");
+                int dayId = Integer.parseInt(request.getParameter("dayName"));
                 int displayOrder = Integer.parseInt(request.getParameter("number"));
 
 
-                PlanDao.addRecipeToPlan(planId, mealName, recipeName, dayName, displayOrder);
+                PlanDao.addRecipeToPlan(planId, mealName, recipeName, dayId, displayOrder);
+
+                //dayName jest
 
                 HttpSession session = request.getSession();
                 session.setAttribute("success", "Przepis dodany do planu");
