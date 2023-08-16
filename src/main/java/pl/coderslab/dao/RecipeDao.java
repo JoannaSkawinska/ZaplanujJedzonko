@@ -19,7 +19,7 @@ public class RecipeDao {
     private static final String DELETE_RECIPE_QUERY = "DELETE FROM recipe where id = ?;";
     private static final String FIND_ALL_RECIPES_QUERY = "SELECT * FROM recipe where admin_id = ?;";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
-    private static final String UPDATE_RECIPE_QUERY = "UPDATE	recipe SET name = ?, ingredients = ?, description = ?, created = ?, updated = ?, preparation_time = ?, preparation = ? WHERE	id = ?;";
+    private static final String UPDATE_RECIPE_QUERY = "UPDATE	recipe SET name = ?, ingredients = ?, description = ?, updated = ?, preparation_time = ?, preparation = ? WHERE	id = ?;";
     private static final String NUMBER_OF_RECIPES_PER_ADMIN = "SELECT COUNT(recipe.id) AS count FROM recipe JOIN admins on recipe.admin_id = admin_id WHERE admin_id = ?;";
 
     public static void createNewRecipe(Recipe recipe) {
@@ -96,11 +96,10 @@ public class RecipeDao {
             preStmt.setString(1, recipe.getName());
             preStmt.setString(2, recipe.getIngredients());
             preStmt.setString(3, recipe.getDescription());
-            preStmt.setString(4, recipe.getCreated());
-            preStmt.setString(5, recipe.getUpdated());
-            preStmt.setInt(6, recipe.getPreparationTime());
-            preStmt.setString(7, recipe.getPreparation());
-            preStmt.setInt(8, recipe.getId());
+            preStmt.setString(4, recipe.getUpdated());
+            preStmt.setInt(5, recipe.getPreparationTime());
+            preStmt.setString(6, recipe.getPreparation());
+            preStmt.setInt(7, recipe.getId());
             preStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

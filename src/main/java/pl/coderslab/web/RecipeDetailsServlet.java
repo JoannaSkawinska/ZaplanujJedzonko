@@ -15,7 +15,7 @@ public class RecipeDetailsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer recipeId = Integer.parseInt(request.getParameter("id"));
         Recipe recipeToShow = RecipeDao.read(recipeId);
-        String[] ingredients = recipeToShow.getIngredients().split(", ");
+        String ingredients = recipeToShow.getIngredients();
         request.setAttribute("recipe", recipeToShow);
         request.setAttribute("ingredients", ingredients);
         request.getRequestDispatcher("/app_recipe_details.jsp").forward(request, response);
