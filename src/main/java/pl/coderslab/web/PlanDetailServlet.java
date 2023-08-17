@@ -21,6 +21,7 @@ public class PlanDetailServlet extends HttpServlet {
         int planId = Integer.parseInt(request.getParameter("id"));
         List<PlanString> planDetails = PlanDao.getListOfPlansOfAdmin(loggedAdmin, planId);
         request.setAttribute("planDetails", planDetails);
+        request.setAttribute("planId", planId);
 
         request.getRequestDispatcher("/app_plan_details.jsp").forward(request, response);
     }
