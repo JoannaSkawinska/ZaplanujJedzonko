@@ -8,7 +8,16 @@ public class PlanString {
     private String recipeName;
     private String recipeDescription;
     private String planDescription;
+    private String recipePlanId;
     public PlanString() {
+    }
+
+    public String getRecipePlanId() {
+        return recipePlanId;
+    }
+
+    public void setRecipePlanId(String recipePlanId) {
+        this.recipePlanId = recipePlanId;
     }
 
     public String getPlanDescription() {

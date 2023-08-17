@@ -47,7 +47,7 @@
                         <h3 class="color-header text-uppercase">SZCZEGÓŁY PLANU</h3>
                     </div>
                     <div class="col d-flex justify-content-end mb-2 noPadding">
-                        <a href="/app_plans.jsp" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                        <a href="/app/plan/list" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
                     </div>
                 </div>
 
@@ -94,7 +94,10 @@
                                         <tr class="d-flex">
                                             <td class="col-2"><c:out value="${recipes.mealName}"/></td>
                                             <td class="col-8"><c:out value="${recipes.recipeName}"/></td>
-                                            <td class="col-2"><a href="/app/recipe/details?id=${recipes.recipeId}"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></a></td>
+                                            <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
+                                                <a href="/app/recipe/plan/delete?id=${recipes.recipePlanId}&planId=${planId}" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                                <a href="/app/recipe/details?id=${recipes.recipeId}&planId=${planId}"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></a>
+                                            </td>
                                         </tr>
                                     </c:if>
                                 </c:forEach>
