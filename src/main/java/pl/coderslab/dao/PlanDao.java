@@ -24,7 +24,7 @@ public class PlanDao {
             "            recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
             "            ORDER by day_name.display_order, recipe_plan.display_order;";
 
-    private static final String PLAN_DETAILS_OF_ADMIN = "SELECT plan.name, plan.description, day_name.name as day_name, meal_name, recipe.id, recipe.name as recipe_name, recipe.description as recipe_description\n" +
+    private static final String PLAN_DETAILS_OF_ADMIN = "SELECT plan.name, plan.description, day_name.name as day_name, meal_name, recipe.id, recipe.name as recipe_name, recipe.description as recipe_description, recipe_plan.id\n" +
             "            FROM `recipe_plan`\n" +
             "            JOIN day_name on day_name.id=day_name_id\n" +
             "            JOIN recipe on recipe.id=recipe_id\n" +
@@ -36,6 +36,7 @@ public class PlanDao {
 
     private static final String DAY_ID_FROM_NAME = "SELECT id FROM day_name WHERE name = ?;";
     private static final String INSERT_RECIPE_TO_PLAN = "INSERT INTO recipe_plan(recipe_id, meal_name, display_order, day_name_id, plan_id) VALUES (?, ?, ?, ?, ?);";
+    private static final String DELETE_RECIPE_FROM_PLAN = "DELETE FROM recipe_plan WHERE id = ?;";
 
 
     public static void createNewPlan (Plan plan) {
@@ -174,6 +175,7 @@ public class PlanDao {
                 ps.setRecipeId(rs.getString(5));
                 ps.setRecipeName(rs.getString(6));
                 ps.setRecipeDescription(rs.getString(7));
+                ps.setRecipePlanId(rs.getString(8));
                 listOfPlansOfAdmin.add(ps);
             }
             return listOfPlansOfAdmin;
@@ -225,10 +227,12 @@ public class PlanDao {
         }
         return -1;
     }
-    public static void addRecipeToPlan(int planId, String mealName, String recipeName, String dayName, int displayOrder) {
+    public static void addRecipeToPlan(int planId, String mealName, String recipeName, int dayId, int displayOrder) {
         try (Connection connection = DbUtil.getConnection()) {
             int recipeId = getRecipeIdByName(connection, recipeName);
+/*
             int dayId = getDayIdByName(connection, dayName);
+*/
 
             if (recipeId != -1 && dayId != -1) {
                 try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RECIPE_TO_PLAN)) {
@@ -240,6 +244,15 @@ public class PlanDao {
                     preparedStatement.executeUpdate();
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void deleteRecipeFromPlan(int recipePlanId) {
+        try (Connection connection = DbUtil.getConnection()) {
+            PreparedStatement preStmt = connection.prepareStatement(DELETE_RECIPE_FROM_PLAN);
+            preStmt.setInt(1, recipePlanId);
+            preStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

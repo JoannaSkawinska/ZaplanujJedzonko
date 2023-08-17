@@ -24,7 +24,7 @@ public class DashboardServlet extends HttpServlet {
         int noOfPlans = PlanDao.numberOfPlansOfAdmin(loggedAdmin);
         request.setAttribute("noOfPlans", noOfPlans);
 
-        int noOfRecipes = RecipeDao.numberOfPlansOfAdmin(loggedAdmin);
+        int noOfRecipes = RecipeDao.numberOfRecipesOfAdmin(loggedAdmin);
         request.setAttribute("noOfRecipes", noOfRecipes);
 
         List<PlanString> lastPlanOfLoggedAdmin = PlanDao.getLastPlanOfAdmin(loggedAdmin);
