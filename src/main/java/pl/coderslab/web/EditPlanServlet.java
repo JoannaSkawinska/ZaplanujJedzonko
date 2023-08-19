@@ -56,7 +56,7 @@ plan.setId(planId);
         PlanDao.updatePlan(plan);
 
 
-        response.sendRedirect(request.getContextPath() + "/app/plan/list");
+        response.sendRedirect(request.getContextPath() + "/app_plans.jsp");
     }
 
 }

@@ -28,48 +28,7 @@
         </div>
     </nav>
 </header>
-
-<section class="dashboard-section">
-    <div class="row dashboard-nowrap">
-        <ul class="nav flex-column long-bg">
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard.html">
-                    <span>Pulpit</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/app-recipes.html">
-                    <span>Przepisy</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/app-schedules.html">
-                    <span>Plany</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/app-edit-user-data.html">
-                    <span>Edytuj dane</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="/app-edit-password.html">
-                    <span>Zmień hasło</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/super-admin-users.html">
-                    <span>Użytkownicy</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
-        </ul>
-
+<jsp:include page="side-menu.jsp"/>
         <div class="m-4 p-3 width-medium">
             <div class="dashboard-content border-dashed p-3 m-4 view-height">
                 <div class="row border-bottom border-3 p-1 m-1">
@@ -82,13 +41,13 @@
                 </div>
 
                 <div class="schedules-content">
-                    <form action="/app/recipe/plan/add" method="post"> <!-- Specify the action and method for the form -->
+                    <form action="/app/plan/edit" method="post">
                         <div class="form-group row">
                             <label for="choosePlan" class="col-sm-2 label-size col-form-label">
                                 Wybierz plan
                             </label>
                             <div class="col-sm-3">
-                                <select class="form-control" id="choosePlan" name="choosePlan"> <!-- Specify the name attribute -->
+                                <select class="form-control" id="choosePlan" name="choosePlan">
                                     <c:forEach items="${planOptions}" var="plan">
                                         <option value="${plan.id}">${plan.name}</option>
                                     </c:forEach>
@@ -118,7 +77,7 @@
                                 Przepis
                             </label>
                             <div class="col-sm-4">
-                                <select class="form-control" id="recipie" name="recipe"> <!-- Specify the name attribute -->
+                                <select class="form-control" id="recipie" name="recipe">
                                     <c:forEach items="${recipeOptions}" var="recipe">
                                         <option value="${recipe.id}">${recipe.name}</option>
                                     </c:forEach>
@@ -130,7 +89,7 @@
                                 Dzień
                             </label>
                             <div class="col-sm-2">
-                                <select class="form-control" id="day" name="day"> <!-- Specify the name attribute -->
+                                <select class="form-control" id="day" name="day">
                                     <c:forEach items="${dayOptions}" var="dayOption">
                                         <option value="${dayOption.id}">${dayOption.name}</option>
                                     </c:forEach>
