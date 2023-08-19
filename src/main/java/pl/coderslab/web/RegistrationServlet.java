@@ -8,8 +8,9 @@ import pl.coderslab.dao.AdminDao;
 import pl.coderslab.model.Admin;
 
 
+import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
-
+@WebServlet("/RegistrationServlet")
 public class RegistrationServlet extends HttpServlet {
 
     @Override
