@@ -32,7 +32,7 @@ public class PlanDao {
             "            plan.admin_id = ? and plan.id = ?\n" +
             "            ORDER by day_name.display_order, recipe_plan.display_order;";
     private static final String RECIPE_ID_FROM_NAME = "SELECT id FROM recipe WHERE name = ?;";
-    private static final String NUMBER_OF_PLANS_PER_ADMIN = "SELECT COUNT(plan.id) AS count FROM plan JOIN admins on plan.admin_id = admin_id WHERE admin_id = ?;";
+    private static final String NUMBER_OF_PLANS_PER_ADMIN = "SELECT COUNT(plan.id) AS count FROM plan WHERE admin_id = ?;";
 
     private static final String DAY_ID_FROM_NAME = "SELECT id FROM day_name WHERE name = ?;";
     private static final String INSERT_RECIPE_TO_PLAN = "INSERT INTO recipe_plan(recipe_id, meal_name, display_order, day_name_id, plan_id) VALUES (?, ?, ?, ?, ?);";
