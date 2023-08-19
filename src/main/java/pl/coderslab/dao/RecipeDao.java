@@ -20,7 +20,7 @@ public class RecipeDao {
     private static final String FIND_ALL_RECIPES_QUERY = "SELECT * FROM recipe where admin_id = ?;";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
     private static final String UPDATE_RECIPE_QUERY = "UPDATE	recipe SET name = ?, ingredients = ?, description = ?, updated = ?, preparation_time = ?, preparation = ? WHERE	id = ?;";
-    private static final String NUMBER_OF_RECIPES_PER_ADMIN = "SELECT COUNT(recipe.id) AS count FROM recipe JOIN admins on recipe.admin_id = admin_id WHERE admin_id = ?;";
+    private static final String NUMBER_OF_RECIPES_PER_ADMIN = "SELECT COUNT(recipe.id) AS count FROM recipe WHERE admin_id = ?;";
 
     public static void createNewRecipe(Recipe recipe) {
         try (Connection connection = DbUtil.getConnection()) {
