@@ -44,7 +44,7 @@ public class DayNameDao {
         return dayName;
     }
 
-    public List<DayName> findAll() {
+    public static List<DayName> findAll() {
         List<DayName> listOfAllDayNames = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(FIND_ALL_DAY_NAMES_QUERY);

@@ -43,7 +43,7 @@
 
     <div class="m-4 p-3 width-medium">
       <div class="dashboard-content border-dashed p-3 m-4 view-height">
-        <form method="post" action="/app/plan/list">
+        <form method="post" action="/app/plan/edit">
           <input type="hidden" name="planId" value="${plan.id}">
           <div class="row border-bottom border-3 p-1 m-1">
             <div class="col noPadding">

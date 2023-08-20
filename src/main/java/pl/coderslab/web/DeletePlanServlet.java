@@ -1,8 +1,8 @@
 package pl.coderslab.web;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 import pl.coderslab.dao.PlanDao;
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ public class DeletePlanServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         request.setAttribute("planId", id);
-        request.getRequestDispatcher("/app_plan_delete.jsp");
+        request.getRequestDispatcher("/app_plan_delete.jsp").forward(request, response);        ;
     }
 
     @Override

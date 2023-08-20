@@ -28,9 +28,15 @@
         </div>
     </nav>
 </header>
-<jsp:include page="side-menu.jsp"/>
+
+<section class="dashboard-section">
+    <div class="row dashboard-nowrap">
+
+        <jsp:include page="side-menu.jsp"/>
+
         <div class="m-4 p-3 width-medium">
             <div class="dashboard-content border-dashed p-3 m-4 view-height">
+
                 <div class="row border-bottom border-3 p-1 m-1">
                     <div class="col noPadding">
                         <h3 class="color-header text-uppercase">DODAJ PRZEPIS DO PLANU</h3>
@@ -41,7 +47,7 @@
                 </div>
 
                 <div class="schedules-content">
-                    <form action="/app/plan/edit" method="post">
+                    <form action="/app/recipe/plan/add" method="post">
                         <div class="form-group row">
                             <label for="choosePlan" class="col-sm-2 label-size col-form-label">
                                 Wybierz plan
@@ -65,11 +71,12 @@
                         </div>
                         <div class="form-group row">
                             <label for="number" class="col-sm-2 label-size col-form-label">
+
+
                                 Numer posiłku
                             </label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" value="" id="number"
-                                       placeholder="Numer posiłku">
+                                <input type="text" class="form-control" name="number" id="number" placeholder="Numer posiłku">
                             </div>
                         </div>
                         <div class="form-group row">

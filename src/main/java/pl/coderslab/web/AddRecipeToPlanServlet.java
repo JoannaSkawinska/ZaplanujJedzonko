@@ -22,10 +22,10 @@ import java.util.List;
 public class AddRecipeToPlanServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sess = request.getSession();
-        AdminDao adminDao = new AdminDao();
-        Admin loggedAdmin = adminDao.read(1);
+        /*AdminDao adminDao = new AdminDao();
+        Admin loggedAdmin = adminDao.read(1);*/
 
-        //Admin loggedAdmin = (Admin) sess.getAttribute("authenticatedAdmin");
+        Admin loggedAdmin = (Admin) sess.getAttribute("authenticatedAdmin");
 
         sess.setAttribute("authenticatedAdmin", loggedAdmin);
         List<Plan> planOptions = PlanDao.findAllPlansOfAdmin(loggedAdmin.getId());
@@ -58,7 +58,7 @@ List<Plan> planOptions = PlanDao.findAllPlansOfAdmin(loggedAdmin.getId());
         int planId = Integer.parseInt(request.getParameter("choosePlan"));
         String mealName = request.getParameter("mealName");
         String recipeName = request.getParameter("recipe");
-        String dayId = request.getParameter("day"); //
+        int dayId = Integer.parseInt(request.getParameter("day")); //
         int displayOrder = Integer.parseInt(request.getParameter("number"));
 
         PlanDao.addRecipeToPlan(planId, mealName, recipeName, dayId, displayOrder);
@@ -66,6 +66,6 @@ List<Plan> planOptions = PlanDao.findAllPlansOfAdmin(loggedAdmin.getId());
         HttpSession session = request.getSession();
         session.setAttribute("success", "Przepis dodany do planu");
 
-        response.sendRedirect(request.getContextPath() + "/app/recipe/plan/add");
+        response.sendRedirect(request.getContextPath() + "/app/plan/list");
     }
 }
