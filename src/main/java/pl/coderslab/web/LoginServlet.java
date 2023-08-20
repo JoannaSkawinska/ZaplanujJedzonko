@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
         if (authenticatedAdmin != null) {
             // logowanie udane
             req.getSession().setAttribute("authenticatedAdmin", authenticatedAdmin);
-            resp.sendRedirect("/home.jsp");
+            resp.sendRedirect("/DashboarServlet");
         } else {
             // logowanie nieudane
             req.setAttribute("loginError", true);
