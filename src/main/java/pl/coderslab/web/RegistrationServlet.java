@@ -10,7 +10,7 @@ import pl.coderslab.model.Admin;
 
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
-@WebServlet("/RegistrationServlet")
+@WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
 
     @Override
