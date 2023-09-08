@@ -1,10 +1,10 @@
 package pl.coderslab.web;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import pl.coderslab.dao.AdminDao;
 import pl.coderslab.model.Admin;
 
@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
         if (authenticatedAdmin != null) {
             // logowanie udane
             req.getSession().setAttribute("authenticatedAdmin", authenticatedAdmin);
-            resp.sendRedirect("/DashboarServlet");
+            resp.sendRedirect("/DashboardServlet");
         } else {
             // logowanie nieudane
             req.setAttribute("loginError", true);

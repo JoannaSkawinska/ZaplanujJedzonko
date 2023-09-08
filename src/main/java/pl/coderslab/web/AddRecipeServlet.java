@@ -1,11 +1,14 @@
 package pl.coderslab.web;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import pl.coderslab.dao.RecipeDao;
+import pl.coderslab.model.Admin;
 import pl.coderslab.model.Recipe;
 
 
@@ -18,7 +21,10 @@ public class AddRecipeServlet extends HttpServlet {
     private final RecipeDao recipeDao = new RecipeDao();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("app-add-recipe.jsp").forward(request, response);
+        HttpSession sess = request.getSession();
+        Admin loggedAdmin = (Admin) sess.getAttribute("authenticatedAdmin");
+        request.setAttribute("admin", loggedAdmin);
+        request.getRequestDispatcher("/app-add-recipe.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -43,6 +49,6 @@ public class AddRecipeServlet extends HttpServlet {
         recipeDao.createNewRecipe(newRecipe);
 
 
-        response.sendRedirect(request.getContextPath() + "/app/recipes");
+        response.sendRedirect(request.getContextPath() + "/app/recipe/list/");
     }
 }

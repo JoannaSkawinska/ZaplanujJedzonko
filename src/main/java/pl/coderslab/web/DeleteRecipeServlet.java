@@ -1,8 +1,8 @@
 package pl.coderslab.web;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 import pl.coderslab.dao.RecipeDao;
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ public class DeleteRecipeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int recipeId = Integer.parseInt(request.getParameter("id"));
         request.setAttribute("recipeId", recipeId);
-        request.getRequestDispatcher("/app_recipe_delete.jsp");
+        request.getRequestDispatcher("/app_recipe_delete.jsp").forward(request,response);
     }
 
     @Override
