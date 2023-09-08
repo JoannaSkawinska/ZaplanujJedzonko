@@ -1,4 +1,5 @@
 -- -----------------------------------------------------
+
 -- Schema scrumlab
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `scrumlab` DEFAULT CHARACTER SET utf8 ;

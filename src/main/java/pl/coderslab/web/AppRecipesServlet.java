@@ -15,15 +15,13 @@ import java.util.List;
 
 @WebServlet("/app/recipe/list/")
 public class AppRecipesServlet extends HttpServlet {
+    RecipeDao recipeDao = new RecipeDao();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sess = request.getSession();
         Admin loggedAdmin = (Admin) sess.getAttribute("authenticatedAdmin");
 
-        /*AdminDao adminDao = new AdminDao();
-        Admin loggedAdmin = adminDao.read(1);*/
-
-        List<Recipe> listOfRecipes = RecipeDao.findAllRecipesOfAdmin(loggedAdmin.getId());
+        List<Recipe> listOfRecipes = recipeDao.findAllRecipes();
         List<RecipeString> listOfRecipesString = RecipeDao.recipeStringList(listOfRecipes);
         request.setAttribute("listOfRecipes", listOfRecipesString);
         request.getRequestDispatcher("/app_recipes.jsp").forward(request, response);
