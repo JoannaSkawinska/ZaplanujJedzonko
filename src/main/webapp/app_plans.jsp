@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: micha
-  Date: 13.08.2023
-  Time: 07:55
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
@@ -58,7 +52,8 @@
                         <tr class="d-flex">
                             <th class="col-1">ID</th>
                             <th class="col-2">NAZWA</th>
-                            <th class="col-7">OPIS</th>
+                            <th class="col-5">OPIS</th>
+                            <th class="col-2"></th>
                             <th class="col-2 center">AKCJE</th>
                         </tr>
                         </thead>
@@ -67,8 +62,16 @@
                         <tr class="d-flex">
                             <td class="col-1"><c:out value="${plan.id}"/></td>
                             <td class="col-2"><c:out value="${plan.name}"/></td>
-                            <td class="col-7">
+                            <td class="col-5">
                                 <c:out value="${plan.description}"/>
+                            </td>
+                            <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
+                                <div class="menu-item border-dashed">
+                                    <a href="/app/plan/recipe/add?planId=${plan.id}">
+                                        <i class="far fa-plus-square icon-plus-square"></i>
+                                        <span class="title">dodaj przepis do planu</span>
+                                    </a>
+                                </div>
                             </td>
                             <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
                                 <a href="/app/plan/delete?id=${plan.id}" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
@@ -77,28 +80,6 @@
                             </td>
                         </tr>
                         </c:forEach>
-                        <%--<tr class="d-flex">
-                            <td class="col-1">1</td>
-                            <td class="col-2">Plan jarski na bezmięsny tydzień</td>
-                            <td class="col-7">
-                                Pojęcie kuchnia wegetariańska określa pożywienie, które ani nie zawiera mięsa, ani nie zostało przygotowane na bazie pochodzącej z mięsa (np. na rosole drobiowym). Laktoowowegetarianie (najczęściej spotykany typ wegetarian w zachodnim świecie) spożywają nabiał, laktowegetarianie wykluczają jaja, ale nie inne produkty nabiałowe.
-                            </td>
-                            <td class="col-2 d-flex align-items-center justify-content-center flex-wrap"><a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                                <a href="/app-details-schedules.html" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                                <a href="/app-edit-schedules.html" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
-                            </td>
-                        </tr>
-                        <tr class="d-flex">
-                            <td class="col-1">2</td>
-                            <td class="col-2">Plan jarski na bezmięsny tydzień</td>
-                            <td class="col-7">
-                                Pojęcie kuchnia wegetariańska określa pożywienie, które ani nie zawiera mięsa, ani nie zostało przygotowane na bazie pochodzącej z mięsa (np. na rosole drobiowym). Laktoowowegetarianie (najczęściej spotykany typ wegetarian w zachodnim świecie) spożywają nabiał, laktowegetarianie wykluczają jaja, ale nie inne produkty nabiałowe.
-                            </td>
-                            <td class="col-2 d-flex align-items-center justify-content-center flex-wrap"><a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                                <a href="/app-details-schedules.html" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                                <a href="/app-edit-schedules.html" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
-                            </td>
-                        </tr>--%>
                         </tbody>
                     </table>
                 </div>
